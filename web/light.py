@@ -11,7 +11,7 @@ import color
 from time import sleep
 
 #set up the serial port. 
-ser = serial.Serial('/dev/tty.usbmodemfa131', 9600, timeout=1)
+ser = serial.Serial('/dev/tty.usbmodemfd1241', 9600, timeout=1)
 
 
 colors = dict()
@@ -24,5 +24,5 @@ colors['white'] = color.Color(255, 160, 60)
 #print "setting red" 
 # colors['red'].set(ser)
 # sleep(5)
-print "setting white" 
-colors['white'].set(ser)
+# print "setting white" 
+# colors['white'].set(ser)
