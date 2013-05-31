@@ -13,13 +13,14 @@ class Color:
     green = 0
     blue = 0
 
-    def __init__(self, red, green, blue): 
+    def __init__(self, ser, red, green, blue): 
         self.red = red
         self.green = green
         self.blue = blue
+        self.ser = ser
 
-    def set(self, ser): 
-        ser.write(chr(self.red) + chr(self.green) + chr(self.blue))
+    def set(self): 
+        self.ser.write(chr(self.red) + chr(self.green) + chr(self.blue))
 
 def set(ser, r, g, b): 
     ser.write(chr(r) + chr(g) + chr(b))
