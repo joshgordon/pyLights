@@ -21,7 +21,7 @@ colors['green'] = color.Color(ser, 0, 255, 0)
 colors['blue'] = color.Color(ser, 0, 0, 255)
 colors['white'] = color.Color(ser, 255, 160, 60) 
 colors['black'] = color.Color(ser, 0, 0, 0)
-colors['11pm'] = color.Color(ser, 75, 20, 3)
+colors['11pm'] = color.Color(ser, 75, 25, 1)
 colors['midnight'] = color.Color(ser, 50, 10, 0)
 colors['1am'] = color.Color(ser, 25, 5, 0)
 
