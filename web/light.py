@@ -11,7 +11,7 @@ import color
 from time import sleep
 
 #set up the serial port. 
-ser = serial.Serial('/dev/tty.usbmodemfd1251', 9600, timeout=1)
+ser = serial.Serial('/dev/serial/by-id/usb-Arduino_LLC_Arduino_Leonardo-if00', 9600, timeout=1)
 
 
 colors = dict()
