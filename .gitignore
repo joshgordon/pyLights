@@ -37,3 +37,4 @@ nosetests.xml
 
 #Emacs crap. 
 *~
+.DS_store
