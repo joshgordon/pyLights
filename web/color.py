@@ -19,8 +19,15 @@ class Color:
         self.blue = blue
         self.ser = ser
 
-    def set(self): 
-        self.ser.write(chr(self.red) + chr(self.green) + chr(self.blue))
+    def setA(self): 
+        self.ser.write('a' + chr(self.red) + chr(self.green) + chr(self.blue))
 
-def set(ser, r, g, b): 
-    ser.write(chr(r) + chr(g) + chr(b))
+    def setB(self): 
+        self.ser.write('b' + chr(self.red) + chr(self.green) + chr(self.blue))
+
+def setA(ser, r, g, b): 
+    ser.write('a' + chr(r) + chr(g) + chr(b))
+
+
+def setB(ser, r, g, b): 
+    ser.write('b' + chr(r) + chr(g) + chr(b))
