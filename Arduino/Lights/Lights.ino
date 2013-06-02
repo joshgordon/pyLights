@@ -89,9 +89,9 @@ void loop()  {
 	Serial.print(greenValueA); 
 	Serial.print(", "); 
 	Serial.print(blueValueA); 
-	Serial.print("]"); 
-      }
-    else if (control == 'b')
+	Serial.println("]"); 
+  }
+    if (control == 'b')
       { 
 	//read 3 bytes. 
 	redValueB = Serial.read();
@@ -108,7 +108,7 @@ void loop()  {
 	Serial.print(greenValueB); 
 	Serial.print(", "); 
 	Serial.print(blueValueB); 
-	Serial.print("]"); 
+	Serial.println("]"); 
       }
   }
 
