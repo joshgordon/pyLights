@@ -13,7 +13,14 @@ from time import sleep
 #set up the serial port. 
 ser = serial.Serial('/dev/serial/by-id/usb-Arduino_LLC_Arduino_Leonardo-if00', 9600, timeout=1)
 
-
+def getColor(set): 
+    ser.write(set.upper()) 
+    ##This is ugly, but I really don't feel like reflashing the arduino
+    # to turn it into something prettier... 
+    return list(str(ser.readline()).strip()[1:-1].split(','))
+    # return allCols
+    # return list([75, 83, 23] )
+        
 colors = dict()
 
 colors['red'] = color.Color(ser, 255, 0, 0) 
@@ -24,6 +31,7 @@ colors['black'] = color.Color(ser, 0, 0, 0)
 colors['11pm'] = color.Color(ser, 75, 25, 1)
 colors['midnight'] = color.Color(ser, 50, 10, 0)
 colors['1am'] = color.Color(ser, 25, 5, 0)
+colors['dimWhite'] = color.Color(ser, 50, 10, 3)
 
 #print "setting red" 
 # colors['red'].set(ser)
