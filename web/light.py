@@ -21,6 +21,10 @@ def getColor(set):
     # return allCols
     # return list([75, 83, 23] )
         
+def getColorTuple(set): 
+    color = getColor(set)
+    return map(int, color)
+    
 colors = dict()
 
 colors['red'] = color.Color(ser, 255, 0, 0) 

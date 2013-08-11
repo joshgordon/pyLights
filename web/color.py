@@ -3,6 +3,7 @@
 # Written by Josh Gordon (github.com/joshgordon) 
 # All code is licensed under the GNU GPL, Version 2 or later. 
 
+import fade
 
 # Sorry for the lack of comments, I kinda threw this together quickly... 
 
@@ -24,6 +25,12 @@ class Color:
 
     def setB(self): 
         self.ser.write('b' + chr(self.red) + chr(self.green) + chr(self.blue))
+        
+    def fadeA(self, current, time): 
+        fade.fade(self.ser, time, "a", current, (self.red, self.green, self.blue))
+
+    def fadeB(self, current, time): 
+        fade.fade(self.ser, time, "b", current, (self.red, self.green, self.blue))
 
 def setA(ser, r, g, b): 
     ser.write('a' + chr(r) + chr(g) + chr(b))
