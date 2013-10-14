@@ -220,7 +220,7 @@ class ScriptRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 if __name__=="__main__":
     # launch the server on the specified port
     import SocketServer
-    port = 8080
+    port = 8080 
     s=SocketServer.TCPServer(('',port),ScriptRequestHandler)
     print "ScriptServer running on port %s" %port
     s.serve_forever()

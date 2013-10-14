@@ -38,3 +38,6 @@ def setA(ser, r, g, b):
 
 def setB(ser, r, g, b): 
     ser.write('b' + chr(r) + chr(g) + chr(b))
+
+def setW(ser, b): 
+    ser.write('w' + chr(b))

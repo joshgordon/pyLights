@@ -36,9 +36,9 @@ int whiteValue = 15;
 //set the color of the lights. 
 void setColorA(int red, int green, int blue)
 { 
-  analogWrite(redLedA, red); 
-  analogWrite(greenLedA, green); 
-  analogWrite(blueLedA, blue); 
+  analogWrite(redLedA, 255 - red); 
+  analogWrite(greenLedA, 255 - green); 
+  analogWrite(blueLedA, 255 - blue); 
     
 } 
 
@@ -98,13 +98,12 @@ void loop()
     } 
     else if (control == 'A')
     { 
-      Serial.print("["); 
       Serial.print(redValueA); 
       Serial.print(", "); 
       Serial.print(greenValueA); 
       Serial.print(", "); 
-      Serial.print(blueValueA); 
-      Serial.println("]"); 
+      Serial.print(blueValueA);
+      Serial.print("\n");
     }
     if (control == 'b')
     { 
@@ -117,13 +116,12 @@ void loop()
     } 
     else if (control == 'B')
     { 
-      Serial.print("["); 
       Serial.print(redValueB); 
       Serial.print(", "); 
       Serial.print(greenValueB); 
       Serial.print(", "); 
       Serial.print(blueValueB); 
-      Serial.println("]"); 
+      Serial.print("\n");
     }
     else if (control == 'w') 
     {
@@ -133,6 +131,7 @@ void loop()
     else if (control == 'W')
     {
       Serial.print(whiteValue);
+      Serial.print("\n");
     } 
     
   }

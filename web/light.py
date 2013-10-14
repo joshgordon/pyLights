@@ -11,13 +11,13 @@ import color
 from time import sleep
 
 #set up the serial port. 
-ser = serial.Serial('/dev/serial/by-id/usb-Arduino_LLC_Arduino_Leonardo-if00', 9600, timeout=1)
+ser = serial.Serial('/dev/tty.usbmodemfd1221', 9600, timeout=1)
 
 def getColor(set): 
     ser.write(set.upper()) 
     ##This is ugly, but I really don't feel like reflashing the arduino
     # to turn it into something prettier... 
-    return list(str(ser.readline()).strip()[1:-1].split(','))
+    return list(str(ser.readline()).strip().split(','))
     # return allCols
     # return list([75, 83, 23] )
         

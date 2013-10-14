@@ -9,21 +9,22 @@ exp= 4/3.0
 #     time.sleep(.03)
 
 def fade(ser, fTime, light, start, end): 
+    colors = 3
     for i in range(65): 
         current = list() 
-        for c in range(3): 
+        if light.lower() == 'w': 
+            colors = 1
+        for c in range(colors): 
             if end[c] > start[c]: 
                 current.append(int((end[c]-start[c])/256.0 * i ** exp + start[c]))
             else: 
                 current.append(int(start[c] - (start[c]-end[c])/255.0 * i ** exp))
                 
-        # print "red: %5d; green: %5d; blue: %5d" % (current[0], current[1], current[2])
-        # used for debugging. :P 
-
-
         if light.lower() == "a":
             color.setA(ser, current[0], current[1], current[2])
         elif light.lower() == "b":
             color.setB(ser, current[0], current[1], current[2])
+        elif light.lower() == "w": 
+            color.setW(ser, current[0])
             
         time.sleep(fTime/64.0)
