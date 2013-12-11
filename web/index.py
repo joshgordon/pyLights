@@ -66,13 +66,13 @@ for set in ['a', 'b', 'w']:
 
         print '<table>' 
 
-    if set == 'a' 
+    if set == 'a': 
         print '<tr><td>Red: </td><td><input type="text" name="redA" value=', red, '></td></tr>'
         print '<tr><td>Green: </td><td><input type="text" name="greenA" value=', green, '></td></tr>' 
         print '<tr><td>Blue: </td><td><input type="text" name="blueA" value=', blue, '></td></tr>' 
 
 
-    elif set == 'b' 
+    elif set == 'b':  
         print '<tr><td>Red: </td><td><input type="text" name="redB" value=', red, '></td></tr>'
         print '<tr><td>Green: </td><td><input type="text" name="greenB" value=', green, '></td></tr>' 
         print '<tr><td>Blue: </td><td><input type="text" name="blueB" value=', blue, '></td></tr>' 
