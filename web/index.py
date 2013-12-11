@@ -92,7 +92,7 @@ for set in ['a', 'b', 'w']:
 
     print '</td>' 
 
-<input type="submit" value="set">
+print '<input type="submit" value="set">'
     
 print '</form></tr></table>'
 
