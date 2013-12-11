@@ -41,12 +41,11 @@ if request:
 print '<h1><a href="index.py?off">All Lights off</a></h1>' 
 
 print '<h2>Enter your own RGB color or pick from the list. </h2>'
-print '<table> <tr>' 
+print '<table><tr>' 
 
 print '<form action="index.py" method="post">'
 
 for set in ['a', 'b', 'w']: 
-
     
     colors = light.getColor(set) 
 
@@ -64,7 +63,7 @@ for set in ['a', 'b', 'w']:
     elif set == 'w': 
         print '<td><h3>Work Light</h3>' 
 
-        print '<table>' 
+    print '<table>' 
 
     if set == 'a': 
         print '<tr><td>Red: </td><td><input type="text" name="redA" value=', red, '></td></tr>'
