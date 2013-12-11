@@ -32,6 +32,11 @@ if request:
         color.setA(light.ser, 0, 0, 0)
         color.setB(light.ser, 0, 0, 0)
         color.setW(light.ser, 0) 
+    elif 'on' in request: 
+        color.setA(light.ser, 255, 15, 0)
+        color.setB(light.ser, 255, 15, 0)
+        color.setW(light.ser, 255)
+
 
 
 print '<h1><a href="index.py?off">All Lights off</a></h1>' 
