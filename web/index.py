@@ -1,31 +1,35 @@
 import light
 import color
 
+print '<html><head><link href="favicon.ico" rel="icon" type="image/x-icon" />' 
+print '</head><body>'
 print "<h1>RGB Light Control</h1>"
 
 if request: 
-    if 'red' in request: 
-        red=int(request['red'][0])
-        green=int(request['green'][0])
-        blue=int(request['blue'][0])
-        if request['light'][0].lower() == 'a': 
-            color.setA(light.ser, red, green, blue)
-        elif request['light'][0].lower() == 'b': 
-            color.setB(light.ser, red, green, blue)
-        elif request['light'][0].lower() == 'ab': 
-            color.setA(light.ser, red, green, blue)
-            color.setB(light.ser, red, green, blue)
+    if 'redA' in request: 
+        redA=int(request['redA'][0])
+        greenA=int(request['greenA'][0])
+        blueA=int(request['blueA'][0])
+        color.setA(light.ser, redA, greenA, blueA)
+    if 'redB' in request:
+        redB=int(request['redB'][0])
+        greenB=int(request['greenB'][0])
+        blueB=int(request['blueB'][0])
+        color.setB(light.ser, redB, greenB, blueB)
+
             
-    elif 'color' in request: 
+    if 'colorA' in request: 
+        color=request['colorA'][0]
+        light.colors[color].setA() 
+    if 'colorB' in request: 
+        color=request['colorB'][0]
+        light.colors[color].setB()
+    if 'color' in request: 
         color=request['color'][0]
-        if request['light'][0].lower() == 'a': 
-            light.colors[color].setA() 
-        elif request['light'][0].lower() == 'b': 
-            light.colors[color].setB() 
-        elif request['light'][0].lower() == 'ab': 
-            light.colors[color].setA() 
-            light.colors[color].setB() 
-    elif 'brightness' in request: 
+        light.colors[color].setA()
+        light.colors[color].setB()
+
+    if 'white' in request: 
         color.setW(light.ser, int(request['brightness'][0]))
     
     elif 'off' in request: 
@@ -38,12 +42,12 @@ print '<h1><a href="index.py?off">All Lights off</a></h1>'
 
 print '<h2>Enter your own RGB color or pick from the list. </h2>'
 print '<table> <tr>' 
+
+print '<form action="index.py" method="post">'
+
 for set in ['a', 'b', 'w']: 
 
-    # red = 0
-    # green = 0
-    # blue = 0
-
+    
     colors = light.getColor(set) 
 
     if set in ('a', 'b'):
@@ -53,36 +57,44 @@ for set in ['a', 'b', 'w']:
     else: 
         white = colors[0]
 
-    if set == 'a': 
+        if set == 'a': 
         print '<td><h3>Desk Light</h3>'
     elif set == 'b': 
         print '<td><h3>Window Light</h3>'
     elif set == 'w': 
         print '<td><h3>Work Light</h3>' 
 
-    print '<form action="index.py" method="post"><input type="hidden" name="light" value="' + set + '"><table>'
-    if set in ('a', 'b'): 
-        print '<tr><td>Red: </td><td><input type="text" name="red" value=', red, '></td></tr>'
-        print '<tr><td>Green: </td><td><input type="text" name="green" value=', green, '></td></tr>' 
-        print '<tr><td>Blue: </td><td><input type="text" name="blue" value=', blue, '></td></tr>' 
-    else: 
-        print '<tr><td>Brightness: </td><td><input type="text" name="brightness" value=', white, '></td></tr>'
+        print '<table>' 
 
-    print '<tr><td align="middle"><input type="submit" value="set"></td></tr></table></form>'
+    if set == 'a' 
+        print '<tr><td>Red: </td><td><input type="text" name="redA" value=', red, '></td></tr>'
+        print '<tr><td>Green: </td><td><input type="text" name="greenA" value=', green, '></td></tr>' 
+        print '<tr><td>Blue: </td><td><input type="text" name="blueA" value=', blue, '></td></tr>' 
+
+
+    elif set == 'b' 
+        print '<tr><td>Red: </td><td><input type="text" name="redB" value=', red, '></td></tr>'
+        print '<tr><td>Green: </td><td><input type="text" name="greenB" value=', green, '></td></tr>' 
+        print '<tr><td>Blue: </td><td><input type="text" name="blueB" value=', blue, '></td></tr>' 
+
+    else: 
+        print '<tr><td>Brightness: </td><td><input type="text" name="white" value=', white, '></td></tr>'
+
+    print '<tr><td align="middle"><input type="submit" value="set"></td></tr></table>'
     
-    if set in ('a', 'b'): 
-        print '<form action="index.py" method="post">' 
-        print '<input type="hidden" name="light" value="' + set + '">' 
-        print '<select name=color>' 
-        for col in light.colors: 
-            print '<option value="' + col + '">' + col.title() + '</option>'
-        print '</select> <input type="submit" value="set"></form>' 
+    # if set in ('a', 'b'): 
+    #     print '<form action="index.py" method="post">' 
+    #     print '<input type="hidden" name="light" value="' + set + '">' 
+    #     print '<select name=color>' 
+    #     for col in light.colors: 
+    #         print '<option value="' + col + '">' + col.title() + '</option>'
+    #     print '</select> <input type="submit" value="set"></form>' 
 
     print '</td>' 
     
-print '</tr></table>'
+print '</form></tr></table>'
 
 # print '<form action="index.py" method="post"><input type="hidden" name="off" value="">' 
 # print '<input type="submit" value="All off"> </form> ' 
 
-
+print '</body></html>'
