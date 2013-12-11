@@ -30,7 +30,7 @@ if request:
         light.colors[color].setB()
 
     if 'white' in request: 
-        color.setW(light.ser, int(request['brightness'][0]))
+        color.setW(light.ser, int(request['white'][0]))
     
     elif 'off' in request: 
         color.setA(light.ser, 0, 0, 0)
