@@ -91,9 +91,11 @@ for set in ['a', 'b', 'w']:
 
     print '</td>' 
 
-print '<input type="submit" value="set">'
+print '</tr></table>'
+
+print '<input type="submit" value="set"></form>' 
     
-print '</form></tr></table>'
+
 
 # print '<form action="index.py" method="post"><input type="hidden" name="off" value="">' 
 # print '<input type="submit" value="All off"> </form> ' 
