@@ -57,7 +57,7 @@ for set in ['a', 'b', 'w']:
     else: 
         white = colors[0]
 
-        if set == 'a': 
+    if set == 'a': 
         print '<td><h3>Desk Light</h3>'
     elif set == 'b': 
         print '<td><h3>Window Light</h3>'
@@ -80,7 +80,7 @@ for set in ['a', 'b', 'w']:
     else: 
         print '<tr><td>Brightness: </td><td><input type="text" name="white" value=', white, '></td></tr>'
 
-    print '<tr><td align="middle"><input type="submit" value="set"></td></tr></table>'
+    print '</table>'
     
     # if set in ('a', 'b'): 
     #     print '<form action="index.py" method="post">' 
@@ -91,6 +91,8 @@ for set in ['a', 'b', 'w']:
     #     print '</select> <input type="submit" value="set"></form>' 
 
     print '</td>' 
+
+<input type="submit" value="set">
     
 print '</form></tr></table>'
 
