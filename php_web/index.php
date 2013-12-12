@@ -12,7 +12,7 @@ $('light_form#submit').click(function() {
 	type: "POST", 
 	url: "http://pi:8080/handler.py", 
 	data: { 
-	    white: light_from#white; 
+	    white: $('#white_value'); 
 	} 
 	success: function(msg){ 
 	    alert('blah'); 
@@ -26,7 +26,7 @@ $('light_form#submit').click(function() {
   <form name="colors" action=""> 
     <fieldset>
       <label for="white" id="white_label">White</label>
-      <input type="text" name="white" id="name" size="30" value="" class="text-input" /> 
+      <input type="text" name="white" id="white_value" size="30" value="" class="text-input" /> 
       <input type="submit" name="submit" class="button" id="submit_btn" value="Updtate" />
     </fieldset>
   </form>
