@@ -6,10 +6,10 @@
 
 # Sorry for the lack of comments, I kinda threw this together quickly... 
 
-import serial
-import color
-from time import sleep
 from __future__ import print_function
+import serial
+# import colors
+from time import sleep
 import sys
 import time 
 
@@ -17,7 +17,7 @@ import time
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
 class ColorLight: 
-    def __init__(lightSet): 
+    def __init__(self, lightSet): 
         valid=['a', 'b'] # Valid Light sets. 
         self.ser = ser
         self.colors=3
@@ -31,7 +31,7 @@ class ColorLight:
             raise Exception("Invalid Light") 
         
     def setColor(self, color): 
-        print("Setting color {0} {1} {2}".format(color[0], color[1], color[2]), file=sys.stderr) 
+        print("Setting color %i %i %i" % color, file=sys.stderr) 
         self.r = color[0] 
         self.g = color[1]
         self.b = color[2] 
@@ -57,11 +57,11 @@ class ColorLight:
                 else: 
                     current.append(int(start[c] - (start[c]-end[c])/255.0 * i ** exp))
                     
-            self.setDirect(current[0], current[1], current[2])
+            self.setDirect((current[0], current[1], current[2]))
             time.sleep(fTime/64.0)
 
         # make sure we update the variables. 
-        self.setColor(r, g, b)
+        self.setColor(end)
 
     def fadeByName(self, fTime, colorName): 
         thisColor = color.getColor(colorName) 
@@ -71,3 +71,14 @@ class ColorLight:
     def getColor(self): 
         return (self.r, self.g, self.b) 
 
+def getColor(set):
+    ser.write(set.upper())
+    ##This is ugly, but I really don't feel like reflashing the arduino
+    # to turn it into something prettier...
+    return list(str(ser.readline()).strip().split(','))
+    # return allCols
+    # return list([75, 83, 23] )
+        
+def getColorTuple(set):
+    color = getColor(set)
+    return map(int, color)
