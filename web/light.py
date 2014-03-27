@@ -11,7 +11,7 @@ import color
 from time import sleep
 
 #set up the serial port. 
-ser = serial.Serial('/dev/tty.usbmodemfd1221', 9600, timeout=1)
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
 def getColor(set): 
     ser.write(set.upper()) 
