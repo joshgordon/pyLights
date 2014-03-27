@@ -61,6 +61,15 @@ void setWhite(int white)
 // the setup routine runs once when you press reset:
 void setup()
 { 
+  
+  //Fixes an issue with Lights flickering. See 
+  //http://jeelabs.org/2011/11/09/fixing-the-arduinos-pwm-2/
+  
+  bitSet(TCCR1B, WGM12);
+  bitSet(TCCR3B, WGM12);
+  //TCCR4B |= 0b10000000;
+  TCCR4D = TCCR4D & 0b11111110; 
+
   //start the serial port.
   Serial.begin(9600); 
   
