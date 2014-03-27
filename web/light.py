@@ -45,8 +45,6 @@ class ColorLight:
     def setColorByName(self, colorName): 
         r, g, b = color.getColor(colorName)
         self.setColor(r, g, b)
-        
-
 
     def fade(self, fTime, end): 
         exp= 4/3.0
