@@ -42,9 +42,9 @@ class ColorLight:
     def setDirect(self, color): 
         self.ser.write(self.lightSet + chr(color[0]) + chr(color[1]) + chr(color[2]))
         
-    def setColorByName(self, colorName): 
-        r, g, b = color.getColor(colorName)
-        self.setColor(r, g, b)
+#    def setColorByName(self, colorName): 
+#        r, g, b = color.getColor(colorName)
+#        self.setColor(r, g, b)
 
     def fade(self, fTime, end): 
         exp= 4/3.0
@@ -63,13 +63,55 @@ class ColorLight:
         # make sure we update the variables. 
         self.setColor(end)
 
-    def fadeByName(self, fTime, colorName): 
-        thisColor = color.getColor(colorName) 
-        self.fade(fTime, thisColor) 
+#TODO
+#    def fadeByName(self, fTime, colorName): 
+#        thisColor = color.getColor(colorName) 
+#        self.fade(fTime, thisColor) 
                 
             
     def getColor(self): 
         return (self.r, self.g, self.b) 
+
+
+class MonoLight: 
+    def __init__(self, lightSet): 
+        valid=['w'] # valid Light sets. 
+        self.ser = ser 
+        self.colors=1 
+        if lightSet in valid: 
+            color=getColorTuple(lightSet) 
+            self.b = color[0] 
+            self.lightSet = lightSet
+        else: 
+            raise Exception("Invalid Light") 
+            
+            
+    def setBrightness(self, bright): 
+        print("setting Brightness %i" % bright, file=sys.stderr)
+        self.b = bright
+        self.ser.write(self.lightSet + chr(self.b))
+        
+
+    def setDirect(self, bright): 
+        self.ser.write(self.lightSet + chr(bright))
+
+    def fade(self, fTime, bright): 
+        exp=4/3.0
+        start = self.getBright() 
+        for i in range(65): 
+            if bright > start: 
+                current=(int((bright-start)/256.0 * i ** exp + start))
+            else: 
+                current=(int(start - (start-bright)/255.0 * i ** exp))
+                    
+            self.setDirect(current)
+            time.sleep(fTime/64.0)
+
+        self.setBrightness(bright)
+
+    def getBright(self):
+        return self.b 
+
 
 def getColor(set):
     ser.write(set.upper())
