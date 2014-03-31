@@ -12,9 +12,12 @@ import serial
 from time import sleep
 import sys
 import time 
+import threading
 
 #set up the serial port. 
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+
+
 
 class ColorLight: 
     def __init__(self, lightSet): 
@@ -47,8 +50,14 @@ class ColorLight:
 #        self.setColor(r, g, b)
 
     def fade(self, fTime, end): 
+        start = self.getColor() 
+        self.r = end[0] 
+        self.g = end[1] 
+        self.b = end[2] 
+        threading.Thread(target=self.fadeReal, args=(fTime, start, end)).start() 
+
+    def fadeReal(self, fTime, start, end):
         exp= 4/3.0
-        start=self.getColor() 
         for i in range(65): 
             current = list() 
             for c in range(self.colors): 
@@ -62,6 +71,7 @@ class ColorLight:
 
         # make sure we update the variables. 
         self.setColor(end)
+
 
 #TODO
 #    def fadeByName(self, fTime, colorName): 
@@ -86,31 +96,36 @@ class MonoLight:
             raise Exception("Invalid Light") 
             
             
-    def setBrightness(self, bright): 
-        print("setting Brightness %i" % bright, file=sys.stderr)
-        self.b = bright
+    def setColor(self, color): 
+        self.b = color[0]
         self.ser.write(self.lightSet + chr(self.b))
         
 
-    def setDirect(self, bright): 
-        self.ser.write(self.lightSet + chr(bright))
+    def setDirect(self, color): 
+        self.ser.write(self.lightSet + chr(color[0]))
 
-    def fade(self, fTime, bright): 
+    def fade(self, fTime, end): 
+        start = self.getColor()[0]
+        self.b = end[0]
+        threading.Thread(target=self.fadeReal, args=(fTime, start, end)).start() 
+
+    def fadeReal(self, fTime, start, end):
         exp=4/3.0
-        start = self.getBright() 
+        end = end[0]
         for i in range(65): 
-            if bright > start: 
-                current=(int((bright-start)/256.0 * i ** exp + start))
+            if end > start: 
+                current=(int((end-start)/256.0 * i ** exp + start))
             else: 
-                current=(int(start - (start-bright)/255.0 * i ** exp))
+                current=(int(start - (start-end)/255.0 * i ** exp))
                     
-            self.setDirect(current)
+            self.setDirect((current, ))
             time.sleep(fTime/64.0)
 
-        self.setBrightness(bright)
+        self.setColor((end, ))
 
-    def getBright(self):
-        return self.b 
+
+    def getColor(self):
+        return (self.b, )
 
 
 def getColor(set):
