@@ -1,0 +1,51 @@
+#+TITLE: Weblights API Description
+#+AUTHOR: Josh Gordon <github@joshgordon.net> 
+#+DATE: 2014-03-30
+
+#+options: toc:nil 
+#+latex_header: \usepackage[margin=1in]{geometry}
+
+* HTTP Requests you can make 
+
+** General
++ =/on= Turns the lights on. (Fading them in) 
++ =/off= Turns the lights off. (Fading them out) 
++ =/desk/red/green/blue= Sets the desk lights (string A) to =red=, =green=, =blue= 
++ =/a/red/green/blue= Shorthand for above. 
++ =/window/red/green/blue= Sets the window lights (string B) to =red=, =green=, =blue= 
++ =/b/red/green/blue= Shorthand for above. 
++ =/work/brightness= Sets the worklight to =brightness=. 
++ =/w/brightness= Shorthand for above. 
+
+** Fading
+Adding =/fade= to the beginning of any of the above commands makes
+them fade to that color in a reasonable amount of time. If you want to
+specify the fade time, simply add =/fade/fadeTime/= to the beginning
+of one of the above commands. 
+
+
+** POST
+You can post data, if you'd prefer that. (The default WebUI does.) You
+have the following post fields. 
+
+*N.B.:* If you post a value for red for a color, you MUST post Green
+and Blue as well, otherwise you'll freak the python out.
+
+# TODO: Fix that. 
+
+The following post fields are valid: 
++ a_red :: A's new red value
++ a_grn :: A's new green value
++ a_blu :: A's new blue value
++ a_fad :: A's fade time. (default: 0) 
+
++ b_red :: B's new red value
++ b_grn :: B's new green value
++ b_blu :: B's new blue value
++ b_fad :: B's fade time. (default: 0) 
+
++ w_brt :: W's new brightness 
++ w_fad :: W's fade time. (default: 0)
+
+
+# TODO: Add python interfaces. 
