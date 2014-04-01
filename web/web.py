@@ -1,5 +1,5 @@
 #!/usr/bin/env python2 
-from bottle import route, request, run, get, template, redirect
+from bottle import route, request, run, get, template, redirect, static_file
 
 import light 
 
@@ -184,7 +184,9 @@ def homePage():
                   w_brt=w_color[0]) 
 
 
-
+@route('/favicon.ico') 
+def favicon(): 
+  return static_file('./favicon.ico', root="/root/pyLights/web")
 
 run(host='0.0.0.0', port=80)
 
