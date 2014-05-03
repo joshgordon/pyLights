@@ -218,5 +218,5 @@ def homePage():
 def favicon(): 
   return static_file('./favicon.ico', root="/root/pyLights/web")
 
-run(host='0.0.0.0', port=80)
+run(host='0.0.0.0', port=8088)
 
