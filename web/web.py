@@ -12,8 +12,8 @@ lights = [a, b, w]
 @route('/on')
 def on(): 
   w.fade(.3, (255, ))
-  b.fade(.3, (255, 25, 0))
-  a.fade(.3, (255, 25, 0))
+  b.fade(.3, (255, 55, 25))
+  a.fade(.3, (255, 55, 25))
   return redirect('/', code=302)
 
 @route('/off')
@@ -34,6 +34,13 @@ def setA(red, green, blue):
 def setB(red, green, blue): 
   b.setColor((int(red), int(green), int(blue)))
   return redirect('/', code=302)
+
+@route('/ab/<red>/<green>/<blue>')
+def setBoth(red, green, blue): 
+  a.setColor((int(red), int(green), int(blue)))
+  b.setColor((int(red), int(green), int(blue)))
+  return redirect('/', code=302)
+  
 
 @route('/work/<bright>') 
 @route('/w/<bright>')
@@ -120,6 +127,23 @@ def handle_post():
       
   return redirect("/", code=302)
 
+@route('/toggle') 
+def toggleState(): 
+  a_color = a.getColor() 
+  b_color = b.getColor() 
+  w_color = w.getColor() 
+  sum = 0
+  for color in a_color: 
+   sum += color
+  for color in b_color: 
+   sum += color
+  for color in w_color: 
+   sum += color
+
+  if sum > 0: 
+    off() 
+  else: 
+    on() 
 
 @route('/') 
 def homePage(): 
@@ -145,32 +169,38 @@ def homePage():
   <tr> 
   <td> 
   <h2> Desk light </h2> 
+  <fieldset>
   <table>
   <tr> <td> <label for="a_red">Red</label></td><td><input type="text" name="a_red" value="{{a_red}}"/> </td> </tr> 
   <tr> <td> <label for="a_grn">Green</label></td> <td> <input type="text" name="a_grn" value="{{a_grn}}"/>  </td> </tr> 
   <tr> <td> <label for="a_blu">Blue</label></td> <td> <input type="text" name="a_blu" value="{{a_blu}}"/> </td> </tr> 
   <tr> <td> <label for="a_fad">Fade Time</label></td> <td> <input type="text" name="a_fad" />  </td> </tr> 
   </table> 
+  </fieldset>
 
   </td> 
   
   <td>
   <h2> Window Light </h2> 
+  <fieldset>
   <table>
   <tr> <td> <label for="b_red">Red</label></td><td><input type="text" name="b_red" value="{{b_red}}"/> </td> </tr> 
   <tr> <td> <label for="b_grn">Green</label></td> <td> <input type="text" name="b_grn" value="{{b_grn}}"/>  </td> </tr> 
   <tr> <td> <label for="b_blu">Blue</label></td> <td> <input type="text" name="b_blu" value="{{b_blu}}"/> </td> </tr> 
   <tr> <td> <label for="b_fad">Fade Time</label></td> <td> <input type="text" name="b_fad" />  </td> </tr> 
   </table> 
+  </fieldset>
 
   </td> 
   
   <td> 
   <h2> Work Light </h2> 
+  <fieldset>
   <table>
   <tr> <td> <label for="w_brt">Brightness</label></td> <td> <input type="text" name="w_brt" value="{{w_brt}}"/> </td> </tr> 
   <tr> <td> <label for="w_fad">Fade Time</label></td> <td> <input type="text" name="w_fad" />  </td> </tr> 
   </table> 
+  </fieldset>
   </td> 
   </tr> 
   </table> 
