@@ -15,20 +15,20 @@ import time
 import threading
 
 #set up the serial port. 
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+# ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
 
 
 class ColorLight: 
     def __init__(self, lightSet): 
         valid=['a', 'b'] # Valid Light sets. 
-        self.ser = ser
+        #self.ser = ser
         self.colors=3
         if lightSet in valid: 
-            color = getColorTuple(lightSet)
-            self.r = color[0]
-            self.g = color[1] 
-            self.b = color[2] 
+            # color = getColorTuple(lightSet)
+            self.r = 0
+            self.g = 0
+            self.b = 0
             self.lightSet = lightSet
         else: 
             raise Exception("Invalid Light") 
@@ -38,12 +38,13 @@ class ColorLight:
         self.r = color[0] 
         self.g = color[1]
         self.b = color[2] 
-        self.ser.write(self.lightSet + chr(self.r) + chr(self.g) + chr(self.b))
+        #self.ser.write(self.lightSet + chr(self.r) + chr(self.g) + chr(self.b))
         
 
     ## The main point of this is to keep overhead down when fading. 
     def setDirect(self, color): 
-        self.ser.write(self.lightSet + chr(color[0]) + chr(color[1]) + chr(color[2]))
+        print("Setting color %i %i %i" % color, file=sys.stderr) 
+        #self.ser.write(self.lightSet + chr(color[0]) + chr(color[1]) + chr(color[2]))
         
 #    def setColorByName(self, colorName): 
 #        r, g, b = color.getColor(colorName)
@@ -54,7 +55,8 @@ class ColorLight:
         self.r = end[0] 
         self.g = end[1] 
         self.b = end[2] 
-        threading.Thread(target=self.fadeReal, args=(fTime, start, end)).start() 
+        print("fading color %i %i %i" % end, file=sys.stderr) 
+        #threading.Thread(target=self.fadeReal, args=(fTime, start, end)).start() 
 
     def fadeReal(self, fTime, start, end):
         exp= 4/3.0
@@ -86,11 +88,11 @@ class ColorLight:
 class MonoLight: 
     def __init__(self, lightSet): 
         valid=['w'] # valid Light sets. 
-        self.ser = ser 
+        # self.ser = ser 
         self.colors=1 
         if lightSet in valid: 
-            color=getColorTuple(lightSet) 
-            self.b = color[0] 
+            #color=getColorTuple(lightSet) 
+            self.b = 0
             self.lightSet = lightSet
         else: 
             raise Exception("Invalid Light") 
@@ -98,16 +100,19 @@ class MonoLight:
             
     def setColor(self, color): 
         self.b = color[0]
-        self.ser.write(self.lightSet + chr(self.b))
+        print("Setting color %i" % color, file=sys.stderr) 
+        # self.ser.write(self.lightSet + chr(self.b))
         
 
     def setDirect(self, color): 
-        self.ser.write(self.lightSet + chr(color[0]))
+        print("Setting color %i" % color, file=sys.stderr) 
+        # self.ser.write(self.lightSet + chr(color[0]))
 
     def fade(self, fTime, end): 
         start = self.getColor()[0]
         self.b = end[0]
-        threading.Thread(target=self.fadeReal, args=(fTime, start, end)).start() 
+        print("Setting color %i" % end, file=sys.stderr) 
+        # threading.Thread(target=self.fadeReal, args=(fTime, start, end)).start() 
 
     def fadeReal(self, fTime, start, end):
         exp=4/3.0
@@ -128,14 +133,14 @@ class MonoLight:
         return (self.b, )
 
 
-def getColor(set):
-    ser.write(set.upper())
-    ##This is ugly, but I really don't feel like reflashing the arduino
-    # to turn it into something prettier...
-    return list(str(ser.readline()).strip().split(','))
-    # return allCols
-    # return list([75, 83, 23] )
+# def getColor(set):
+#     ser.write(set.upper())
+#     ##This is ugly, but I really don't feel like reflashing the arduino
+#     # to turn it into something prettier...
+#     return list(str(ser.readline()).strip().split(','))
+#     # return allCols
+#     # return list([75, 83, 23] )
         
-def getColorTuple(set):
-    color = getColor(set)
-    return map(int, color)
+# def getColorTuple(set):
+#     color = getColor(set)
+#     return map(int, color)
