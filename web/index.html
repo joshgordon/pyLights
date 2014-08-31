@@ -17,15 +17,6 @@
 			margin-left: 350px;
 			background-image: none;
 	}
-  #a_red, #a_grn, #a_blu, #a_fad,
-  #b_red, #b_grn, #b_blu, #b_fad,
-  #w_brt, #w_fad {
-    //width: 100px;
-    //height: 100px;
-  }
-  #control_table {
-    //width: 50%;
-  }
 	#red .ui-slider-range { background: #ef2929; }
 	#red .ui-slider-handle { border-color: #ef2929; }
 	#green .ui-slider-range { background: #8ae234; }
@@ -64,8 +55,7 @@
 												 b_fad: $("#b_fad").slider("value"), w_fad: $("#w_fad").slider("value")});
 		}
 		$(function() {
-				$(".slider").slider(
-          {
+				$(".slider").slider({
 						orientation: "horizontal",
 						range: "min",
 						max: 255,
@@ -81,7 +71,7 @@
   <a href="/on">On</a> <a href="/off">off</a>
 
   <h1>Light Control</h1>
-	<table id="control_table">
+	<table>
   	<tr>
   		<td>
   			<h2> Desk light </h2>
