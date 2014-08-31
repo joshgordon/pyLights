@@ -17,6 +17,13 @@
 			margin-left: 350px;
 			background-image: none;
 	}
+  #a_preview div, #b_preview div{
+			width: 120px;
+			height: 100px;
+			margin-top: 18px;
+			margin-left: 350px;
+			background-image: none;
+  }
 	.red .ui-slider-range { background: #ef2929; }
 	.red .ui-slider-handle { border-color: #ef2929; }
 	.green .ui-slider-range { background: #8ae234; }
@@ -53,6 +60,7 @@
 												 b_grn: $("#b_grn").slider("value"), b_blu: $("#b_blu").slider("value"),
 												 w_brt: $("#w_brt").slider("value"), a_fad: $("#a_fad").slider("value"),
 												 b_fad: $("#b_fad").slider("value"), w_fad: $("#w_fad").slider("value")});
+        refreshSwatch();
 		}
 		$(function() {
 				$(".slider").slider({
@@ -64,7 +72,31 @@
 						change: submit,
 				});
 		})
-
+    function refreshSwatch() {
+      var a_red = $("#a_red").slider("value"),
+      a_grn = $("#a_grn").slider("value"),
+      a_blu = $("#a_blu").slider("value"),
+      a_hex = hexFromRGB(a_red, a_grn, a_blu);
+      $("#a_preview div").css("background-color", "#" + a_hex );
+      var b_red = $("#b_red").slider("value"),
+      b_grn = $("#b_grn").slider("value"),
+      b_blu = $("#b_blu").slider("value"),
+      b_hex = hexFromRGB(b_red, b_grn, b_blu);
+      $("#b_preview div").css("background-color", "#" + b_hex );
+    }
+    function hexFromRGB(r, g, b) {
+      var hex = [
+        r.toString( 16 ),
+        g.toString( 16 ),
+        b.toString( 16 )
+      ];
+      $.each( hex, function( nr, val ) {
+        if ( val.length === 1 ) {
+          hex[ nr ] = "0" + val;
+        }
+      });
+      return hex.join( "" ).toUpperCase();
+    }
 	</script>
   </head>
 	<body>
@@ -80,6 +112,9 @@
     <tr>
       <td>
   			<div class="red slider"   id="a_red"></div>
+      </td>
+      <td id="a_preview" rowspan="4">
+        <div></div>
       </td>
     </tr>
     <tr>
@@ -105,6 +140,9 @@
     <tr>
       <td>
         <div class="red slider"   id="b_red"></div>
+      </td>
+      <td id="b_preview" rowspan="4">
+        <div></div>
       </td>
     </tr>
     <tr>
