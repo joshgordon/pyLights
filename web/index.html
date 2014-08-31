@@ -1,0 +1,88 @@
+  <html> 
+  <head>
+  <meta charset="utf-8">
+  <title>Desk Light Control</title>
+
+
+	<script src="jquery.js"></script> 
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+	<script type="text/javascript">
+		colors = {a: [0, 0, 0], b: [0, 0, 0], w: [0]}; 
+		$.getJSON("/colors", function(data) { 
+  		colors = data; 
+		  updateFields(); 
+		}); 
+
+    function updateFields() { 
+				console.log(colors) 
+				
+				console.log
+				$("#a_red").val(colors.a[0]); 
+				$("#a_grn").val(colors.a[1]); 
+				$("#a_blu").val(colors.a[2]); 
+				
+				$("#b_red").val(colors.b[0]); 
+				$("#b_grn").val(colors.b[1]); 
+				$("#b_blu").val(colors.b[2]); 
+				
+				$("#w_brt").val(colors.w[0]); 
+		}
+    function submit() { 
+				$.post("/post", {a_red: $("#a_red").val(), a_grn: $("#a_grn").val(), 
+												 a_blu: $("#a_blu").val(), b_red: $("#b_red").val(), 
+												 b_grn: $("#b_grn").val(), b_blu: $("#b_blu").val(), 
+												 w_brt: $("#w_brt").val(), a_fad: $("#a_fad").val(), 
+												 b_fad: $("#b_fad").val(), w_fad: $("#w_fad").val() })
+		}
+
+    
+	</script> 
+  </head> 
+
+  <a href="/on">On</a> <a href="/off">off</a> 
+
+  <h1>Light Control</h1> 
+  <body>
+  <table>
+  <tr> 
+  <td> 
+  <h2> Desk light </h2> 
+  <fieldset>
+  <table>
+  <tr> <td> <label for="a_red">Red</label></td><td><input type="text" id="a_red" value="{{a_red}}"/> </td> </tr> 
+  <tr> <td> <label for="a_grn">Green</label></td> <td> <input type="text" id="a_grn" value="{{a_grn}}"/>  </td> </tr> 
+  <tr> <td> <label for="a_blu">Blue</label></td> <td> <input type="text" id="a_blu" value="{{a_blu}}"/> </td> </tr> 
+  <tr> <td> <label for="a_fad">Fade Time</label></td> <td> <input type="text" id="a_fad" />  </td> </tr> 
+  </table> 
+  </fieldset>
+
+
+  </td> 
+  
+  <td>
+  <h2> Window Light </h2> 
+  <fieldset>
+  <table>
+  <tr> <td> <label for="b_red">Red</label></td><td><input type="text" id="b_red" value="{{b_red}}"/> </td> </tr> 
+  <tr> <td> <label for="b_grn">Green</label></td> <td> <input type="text" id="b_grn" value="{{b_grn}}"/>  </td> </tr> 
+  <tr> <td> <label for="b_blu">Blue</label></td> <td> <input type="text" id="b_blu" value="{{b_blu}}"/> </td> </tr> 
+  <tr> <td> <label for="b_fad">Fade Time</label></td> <td> <input type="text" id="b_fad" />  </td> </tr> 
+  </table> 
+  </fieldset>
+
+  </td> 
+  
+  <td> 
+  <h2> Work Light </h2> 
+  <fieldset>
+  <table>
+  <tr> <td> <label for="w_brt">Brightness</label></td> <td> <input type="text" id="w_brt" value="{{w_brt}}"/> </td> </tr> 
+  <tr> <td> <label for="w_fad">Fade Time</label></td> <td> <input type="text" id="w_fad" />  </td> </tr> 
+  </table> 
+  </fieldset>
+  </td> 
+  </tr> 
+  </table> 
+  <input type="submit" href="#" onclick="submit()"/> 
+  </body> 
+  </html> 
