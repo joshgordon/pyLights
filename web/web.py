@@ -165,5 +165,10 @@ def jquery():
   cwd = os.path.dirname(os.path.realpath(__file__))
   return static_file('./jquery-2.1.1.min.js', cwd)
 
+@route('/jquery-ui.js')
+def jqueryUI(): 
+  cwd = os.path.dirname(os.path.realpath(__file__))
+  return static_file('./jquery-ui.js', cwd) 
+
 run(host='0.0.0.0', port=8088)
 

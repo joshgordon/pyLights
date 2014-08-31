@@ -2,10 +2,30 @@
   <head>
   <meta charset="utf-8">
   <title>Desk Light Control</title>
-
+	<style>
+	#red, #green, #blue {
+			float: left;
+			clear: left;
+			width: 300px;
+			margin: 15px;
+	}
+	#swatch {
+			width: 120px;
+			height: 100px;
+			margin-top: 18px;
+			margin-left: 350px;
+			background-image: none;
+	}
+	#red .ui-slider-range { background: #ef2929; }
+	#red .ui-slider-handle { border-color: #ef2929; }
+	#green .ui-slider-range { background: #8ae234; }
+	#green .ui-slider-handle { border-color: #8ae234; }
+	#blue .ui-slider-range { background: #729fcf; }
+	#blue .ui-slider-handle { border-color: #729fcf; }
+	</style>
 
 	<script src="jquery.js"></script> 
-  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <script src="jquery-ui.js"></script>
 	<script type="text/javascript">
 		colors = {a: [0, 0, 0], b: [0, 0, 0], w: [0]}; 
 		$.getJSON("/colors", function(data) { 
@@ -14,18 +34,17 @@
 		}); 
 
     function updateFields() { 
-				console.log(colors) 
+				console.log(colors); 
 				
-				console.log
-				$("#a_red").val(colors.a[0]); 
-				$("#a_grn").val(colors.a[1]); 
-				$("#a_blu").val(colors.a[2]); 
+				// $("#a_red").val(colors.a[0]); 
+				// $("#a_grn").val(colors.a[1]); 
+				// $("#a_blu").val(colors.a[2]); 
 				
-				$("#b_red").val(colors.b[0]); 
-				$("#b_grn").val(colors.b[1]); 
-				$("#b_blu").val(colors.b[2]); 
+				// $("#b_red").val(colors.b[0]); 
+				// $("#b_grn").val(colors.b[1]); 
+				// $("#b_blu").val(colors.b[2]); 
 				
-				$("#w_brt").val(colors.w[0]); 
+				// $("#w_brt").val(colors.w[0]); 
 		}
     function submit() { 
 				$.post("/post", {a_red: $("#a_red").val(), a_grn: $("#a_grn").val(), 
@@ -34,55 +53,52 @@
 												 w_brt: $("#w_brt").val(), a_fad: $("#a_fad").val(), 
 												 b_fad: $("#b_fad").val(), w_fad: $("#w_fad").val() })
 		}
-
+		$(function() {
+				$(".slider").slider({
+						orientation: "horizontal", 
+						range: "min", 
+						max: 255, 
+						value: 0, 
+						slide: submit, 
+						change: submit, 
+				});
+		})
     
 	</script> 
   </head> 
-
+	<body> 
   <a href="/on">On</a> <a href="/off">off</a> 
 
   <h1>Light Control</h1> 
-  <body>
-  <table>
-  <tr> 
-  <td> 
-  <h2> Desk light </h2> 
-  <fieldset>
-  <table>
-  <tr> <td> <label for="a_red">Red</label></td><td><input type="text" id="a_red" value="{{a_red}}"/> </td> </tr> 
-  <tr> <td> <label for="a_grn">Green</label></td> <td> <input type="text" id="a_grn" value="{{a_grn}}"/>  </td> </tr> 
-  <tr> <td> <label for="a_blu">Blue</label></td> <td> <input type="text" id="a_blu" value="{{a_blu}}"/> </td> </tr> 
-  <tr> <td> <label for="a_fad">Fade Time</label></td> <td> <input type="text" id="a_fad" />  </td> </tr> 
-  </table> 
-  </fieldset>
+	<table>
+			<tr> 
+				<td> 
+					<h2> Desk light </h2> 
+					<div class="red slider"   id="a_red"></div>
+					<div class="green slider" id="a_grn"></div> 
+					<div class="blue slider"  id="a_blu"></div> 
+					<div class="fade slider"  id="a_fad"></div> 
+</fieldset>
 
 
-  </td> 
-  
-  <td>
+</td> 
+
+<td>
   <h2> Window Light </h2> 
-  <fieldset>
-  <table>
-  <tr> <td> <label for="b_red">Red</label></td><td><input type="text" id="b_red" value="{{b_red}}"/> </td> </tr> 
-  <tr> <td> <label for="b_grn">Green</label></td> <td> <input type="text" id="b_grn" value="{{b_grn}}"/>  </td> </tr> 
-  <tr> <td> <label for="b_blu">Blue</label></td> <td> <input type="text" id="b_blu" value="{{b_blu}}"/> </td> </tr> 
-  <tr> <td> <label for="b_fad">Fade Time</label></td> <td> <input type="text" id="b_fad" />  </td> </tr> 
-  </table> 
-  </fieldset>
+	<div class="red slider"   id="b_red"></div>
+  <div class="green slider" id="b_grn"></div>
+  <div class="blue slider"  id="b_blu"></div>
+  <div class="fade slider"  id="b_fad"></div>
 
-  </td> 
-  
-  <td> 
+</td> 
+
+<td> 
   <h2> Work Light </h2> 
-  <fieldset>
-  <table>
-  <tr> <td> <label for="w_brt">Brightness</label></td> <td> <input type="text" id="w_brt" value="{{w_brt}}"/> </td> </tr> 
-  <tr> <td> <label for="w_fad">Fade Time</label></td> <td> <input type="text" id="w_fad" />  </td> </tr> 
-  </table> 
-  </fieldset>
-  </td> 
-  </tr> 
-  </table> 
-  <input type="submit" href="#" onclick="submit()"/> 
-  </body> 
-  </html> 
+			<div class="white slider" id="w_brt"></div>
+			<div class="fade slider"  id="w_fad"></div>
+</td> 
+</tr> 
+</table> 
+<input type="submit" href="#" onclick="submit()"/> 
+</body> 
+</html> 
