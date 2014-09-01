@@ -125,7 +125,7 @@ def handle_post():
     except: 
       w.setColor((int(w_brt), ))
       
-  return redirect("/", code=302)
+  # return redirect("/", code=302)
 
 @route('/toggle') 
 def toggleState(): 

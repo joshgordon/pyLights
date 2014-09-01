@@ -54,34 +54,44 @@
 
 				// $("#w_brt").val(colors.w[0]);
 		}
+    function scale(colors) { 
+        for (var color in colors) { 
+            color = Math.round(Math.pow(color, (4/3.0)))
+        }
+
+      return colors; 
+  
+    }
     function submit() {
-				$.post("/post", {a_red: $("#a_red").slider("value"), a_grn: $("#a_grn").slider("value"),
+       var colors =     {a_red: $("#a_red").slider("value"), a_grn: $("#a_grn").slider("value"),
 												 a_blu: $("#a_blu").slider("value"), b_red: $("#b_red").slider("value"),
 												 b_grn: $("#b_grn").slider("value"), b_blu: $("#b_blu").slider("value"),
-												 w_brt: $("#w_brt").slider("value"), a_fad: $("#a_fad").slider("value"),
-												 b_fad: $("#b_fad").slider("value"), w_fad: $("#w_fad").slider("value")});
+												 w_brt: $("#w_brt").slider("value"),}
+				colors = scale(colors); 							
+				$.post("/post", colors);
         refreshSwatch();
+        setTimeout(submit, 100); 
 		}
 		$(function() {
 				$(".slider").slider({
 						orientation: "horizontal",
 						range: "min",
-						max: 255,
+						max: 64,
 						value: 0,
-						slide: submit,
-						change: submit,
+						// slide: submit,
+						// change: submit,
 				});
+    submit(); 
 		})
     function refreshSwatch() {
-      var a_red = $("#a_red").slider("value"),
-      a_grn = $("#a_grn").slider("value"),
-      a_blu = $("#a_blu").slider("value"),
-      a_hex = hexFromRGB(a_red, a_grn, a_blu);
+        var colors =     {a_red: $("#a_red").slider("value"), a_grn: $("#a_grn").slider("value"),
+												 a_blu: $("#a_blu").slider("value"), b_red: $("#b_red").slider("value"),
+												 b_grn: $("#b_grn").slider("value"), b_blu: $("#b_blu").slider("value"),
+												 w_brt: $("#w_brt").slider("value"),}
+				colors = scale(colors); 							
+      a_hex = hexFromRGB(colors.a_red, colors.a_grn, colors.a_blu);
       $("#a_preview div").css("background-color", "#" + a_hex );
-      var b_red = $("#b_red").slider("value"),
-      b_grn = $("#b_grn").slider("value"),
-      b_blu = $("#b_blu").slider("value"),
-      b_hex = hexFromRGB(b_red, b_grn, b_blu);
+      b_hex = hexFromRGB(colors.b_red, colors.b_grn, colors.b_blu);
       $("#b_preview div").css("background-color", "#" + b_hex );
     }
     function hexFromRGB(r, g, b) {
@@ -129,11 +139,6 @@
     </tr>
     <tr>
       <td>
-  			<div class="fade slider"  id="a_fad"></div>
-      </td>
-    </tr>
-    <tr>
-      <td>
         <h2> Window Light </h2>
       </td>
     </tr>
@@ -157,22 +162,12 @@
     </tr>
     <tr>
       <td>
-        <div class="fade slider"  id="b_fad"></div>
-      </td>
-    </tr>
-    <tr>
-      <td>
         <h2> Work Light </h2>
       </td>
     </tr>
     <tr>
       <td>
   	    <div class="white slider" id="w_brt"></div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-  	    <div class="fade slider"  id="w_fad"></div>
       </td>
     </tr>
   </table>
