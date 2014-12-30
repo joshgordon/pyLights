@@ -1,0 +1,78 @@
+% Created 2014-03-30 Sun 21:46
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage[margin=1in]{geometry}
+\author{Josh Gordon <github@joshgordon.net>}
+\date{2014-03-30}
+\title{Weblights API Description}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.3.1 (Org mode 8.2.1)}}
+\begin{document}
+
+\maketitle
+
+\section{HTTP Requests you can make}
+\label{sec-1}
+
+\subsection{General}
+\label{sec-1-1}
+\begin{itemize}
+\item \texttt{/on} Turns the lights on. (Fading them in)
+\item \texttt{/off} Turns the lights off. (Fading them out)
+\item \texttt{/desk/red/green/blue} Sets the desk lights (string A) to \texttt{red}, \texttt{green}, \texttt{blue}
+\item \texttt{/a/red/green/blue} Shorthand for above.
+\item \texttt{/window/red/green/blue} Sets the window lights (string B) to \texttt{red}, \texttt{green}, \texttt{blue}
+\item \texttt{/b/red/green/blue} Shorthand for above.
+\item \texttt{/work/brightness} Sets the worklight to \texttt{brightness}.
+\item \texttt{/w/brightness} Shorthand for above.
+\end{itemize}
+\subsection{Fading}
+\label{sec-1-2}
+Adding \texttt{/fade} to the beginning of any of the above commands makes
+them fade to that color in a reasonable amount of time. If you want to
+specify the fade time, simply add \texttt{/fade/fadeTime/} to the beginning
+of one of the above commands. 
+
+\subsection{POST}
+\label{sec-1-3}
+You can post data, if you'd prefer that. (The default WebUI does.) You
+have the following post fields. 
+
+\textbf{N.B.:} If you post a value for red for a color, you MUST post Green
+and Blue as well, otherwise you'll freak the python out.
+
+
+The following post fields are valid: 
+\begin{description}
+\item[{a$_{\text{red}}$}] A's new red value
+\item[{a$_{\text{grn}}$}] A's new green value
+\item[{a$_{\text{blu}}$}] A's new blue value
+\item[{a$_{\text{fad}}$}] A's fade time. (default: 0)
+
+\item[{b$_{\text{red}}$}] B's new red value
+\item[{b$_{\text{grn}}$}] B's new green value
+\item[{b$_{\text{blu}}$}] B's new blue value
+\item[{b$_{\text{fad}}$}] B's fade time. (default: 0)
+
+\item[{w$_{\text{brt}}$}] W's new brightness
+\item[{w$_{\text{fad}}$}] W's fade time. (default: 0)
+\end{description}
+% Emacs 24.3.1 (Org mode 8.2.1)
+\end{document}

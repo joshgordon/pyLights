@@ -1,7 +1,7 @@
 #!/usr/bin/env python2 
 from bottle import route, request, run, get, template, redirect, static_file
 
-import light, json, os 
+import light 
 
 a = light.ColorLight('a') 
 b = light.ColorLight('b') 
@@ -125,7 +125,7 @@ def handle_post():
     except: 
       w.setColor((int(w_brt), ))
       
-  # return redirect("/", code=302)
+  return redirect("/", code=302)
 
 @route('/toggle') 
 def toggleState(): 
@@ -147,23 +147,76 @@ def toggleState():
 
 @route('/') 
 def homePage(): 
-  cwd = os.path.dirname(os.path.realpath(__file__))
-  return static_file('index.html', root=cwd)
+  a_color = a.getColor() 
+  b_color = b.getColor() 
+  w_color = w.getColor() 
+  return template("""
 
-@route('/colors')
-def colors(): 
-  return json.dumps({"a": a.getColor(), "b": b.getColor(), "w": w.getColor()})
+  <html> 
+  <head>
+  <meta charset="utf-8">
+  <title>Desk Light Control</title>
+
+
+  </head> 
+
+  <a href="/on">On</a> <a href="/off">off</a> 
+
+  <h1>Light Control</h1> 
+  <body>
+  <form action="/post" method="post"> 
+  <table>
+  <tr> 
+  <td> 
+  <h2> Desk light </h2> 
+  <fieldset>
+  <table>
+  <tr> <td> <label for="a_red">Red</label></td><td><input type="text" name="a_red" value="{{a_red}}"/> </td> </tr> 
+  <tr> <td> <label for="a_grn">Green</label></td> <td> <input type="text" name="a_grn" value="{{a_grn}}"/>  </td> </tr> 
+  <tr> <td> <label for="a_blu">Blue</label></td> <td> <input type="text" name="a_blu" value="{{a_blu}}"/> </td> </tr> 
+  <tr> <td> <label for="a_fad">Fade Time</label></td> <td> <input type="text" name="a_fad" />  </td> </tr> 
+  </table> 
+  </fieldset>
+
+  </td> 
+  
+  <td>
+  <h2> Window Light </h2> 
+  <fieldset>
+  <table>
+  <tr> <td> <label for="b_red">Red</label></td><td><input type="text" name="b_red" value="{{b_red}}"/> </td> </tr> 
+  <tr> <td> <label for="b_grn">Green</label></td> <td> <input type="text" name="b_grn" value="{{b_grn}}"/>  </td> </tr> 
+  <tr> <td> <label for="b_blu">Blue</label></td> <td> <input type="text" name="b_blu" value="{{b_blu}}"/> </td> </tr> 
+  <tr> <td> <label for="b_fad">Fade Time</label></td> <td> <input type="text" name="b_fad" />  </td> </tr> 
+  </table> 
+  </fieldset>
+
+  </td> 
+  
+  <td> 
+  <h2> Work Light </h2> 
+  <fieldset>
+  <table>
+  <tr> <td> <label for="w_brt">Brightness</label></td> <td> <input type="text" name="w_brt" value="{{w_brt}}"/> </td> </tr> 
+  <tr> <td> <label for="w_fad">Fade Time</label></td> <td> <input type="text" name="w_fad" />  </td> </tr> 
+  </table> 
+  </fieldset>
+  </td> 
+  </tr> 
+  </table> 
+  <input type="submit" /> 
+  </form> 
+  </body> 
+  </html> 
+  """, 
+                  a_red=a_color[0], a_grn=a_color[1], a_blu = a_color[2], 
+                  b_red=b_color[0], b_grn=b_color[1], b_blu = b_color[2], 
+                  w_brt=w_color[0]) 
 
 
 @route('/favicon.ico') 
 def favicon(): 
-  cwd = os.path.dirname(os.path.realpath(__file__))
-  return static_file('./favicon.ico', root=cwd)
-
-@route('/jquery.js')
-def jquery(): 
-  cwd = os.path.dirname(os.path.realpath(__file__))
-  return static_file('./jquery-2.1.1.min.js', cwd)
+  return static_file('./favicon.ico', root="/root/pyLights/web")
 
 @route('/jquery-ui.js')
 def jqueryUI(): 
