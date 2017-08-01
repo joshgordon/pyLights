@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 
-import light 
+#import light 
 import RPi.GPIO as GPIO 
 import http.client
 import os
 from xmlrpc.client import ServerProxy, Error
 from time import sleep
+from bottle import route, request, run, get, redirect, static_file 
 
-desk = light.ColorLight('a')  
-window = light.ColorLight('b')  
-work = light.MonoLight('w')   
+#desk = light.ColorLight('a')  
+#window = light.ColorLight('b')  
+#work = light.MonoLight('w')   
 
-relays = ServerProxy("http://192.168.1.19:8000")
+relays = ServerProxy("http://pyrelay:8000")
 
 fadeTime = 0.7
 
@@ -19,32 +20,31 @@ buttons = [17, 18, 24, 22, 23, 4] # These are in order, in natural
                                   # order when you hold the darned
                                   # thing upright.
 
-vars = ['desk', 'window', 'work', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 
-        'r7', 'r8', 'mac']
+vars = ['r7', 'r8', 'r4', 'r5', 'r6', 'r1', 'r2', 'r3', 
+        'mac'] # 'desk', 'window', 'work', 
 
 presets = [
   # All on
   {
-    'desk': (255, 55, 15), 'window': (255, 55, 15), 'work': (255, ),
-    'r1': True, 'r2': True, 'r3': True, 'r4': True, 'r6': True, 'mac': True
+    'r1': True, 'r2': True, 'r3': True, 'r4': True, 'r5': True, 'r6': True,
+    'r7': True, 'r8': True, 'mac': True
   }, 
 
   # Red
-  {'desk': (255, 0, 0), 'window': (255, 0, 0), 'work': (15,)}, 
+  { 'r5': True, 'r6': True}, 
   
   # Blue
-  {'desk': (0, 0, 255), 'window': (0, 0, 255), 'work': (0,), 'r4': False}, 
+  {'r5': False}, 
 
   # Green
-  {'desk': (255, 0, 0), 'window': (0, 255, 0), 'work': (0,)},
+  {'r6': False},
 
   # Lights off
-  {'desk': (0, 0, 0), 'window': (0, 0, 0), 'work': (0,), 'r4': False}, 
+  {'r5': False, 'r6': False, 'r7': True, 'r8': True, 'mac': True}, 
   
   # All Off. 
   {
-    'desk': (0, 0, 0), 'window': (0, 0, 0), 'work': (0, ),
-    'r1': False, 'r2': False, 'r3': False, 'r4': False, 'r6': True, 
+    'r2': False, 'r3': False, 'r4': False, 'r5': False, 'r6': False, 'r7': False, 'r8': False, 
     'mac': False
   }, 
 
@@ -54,14 +54,15 @@ def setPreset(number):
   preset = presets[number]
   
   for var in vars: 
+    print("...")
     if var in preset: 
-      if var == 'desk': 
-        desk.fade(fadeTime, preset['desk'])
-      elif var == 'window': 
-        window.fade(fadeTime, preset['window'])
-      elif var == 'work': 
-        work.fade(fadeTime, preset['work'])
-      elif var == 'mac': 
+#      if var == 'desk': 
+#        desk.fade(fadeTime, preset['desk'])
+#      elif var == 'window': 
+#        window.fade(fadeTime, preset['window'])
+#      elif var == 'work': 
+#        work.fade(fadeTime, preset['work'])
+      if var == 'mac': 
         mac(preset['mac'])
         
       elif var[0] == 'r': 
@@ -82,6 +83,12 @@ def mac(state):
 
 mostRecentButton = -1
 working = False
+
+@route("/push/<button>")
+def webHandler(button):
+  mostRecentbutton = int(button)
+  setPreset(int(button))
+
 def buttonHandler(button): 
   global working
   if working == True: 
@@ -93,10 +100,12 @@ def buttonHandler(button):
       if GPIO.input(buttons[i]) == 1: 
         if mostRecentButton != i:
           setPreset(i)
+          print("Button pressed %d." % i) 
           mostRecentButton = i
         break
     sleep(.01)
     working = False
+    print("No longer working.")
 
 
 GPIO.setmode(GPIO.BCM)
@@ -105,6 +114,12 @@ for button in buttons:
   GPIO.setup(button, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)  #Second switch
   GPIO.add_event_detect(button,  GPIO.BOTH, callback=buttonHandler, bouncetime=200)
 
+@route('/')
+def default():
+  return static_file('buttons.html', root='/root/pyLights/web')
 
-while True: 
-  sleep(100)
+
+run(host="0.0.0.0", port=8080)
+# while True: 
+  
+#   sleep(1000000)

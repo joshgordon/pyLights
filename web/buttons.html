@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>BUTTONS!</title>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript">
+		$(function() {
+				$('.btn').click(function() {
+						push($(this).attr('id'));
+				})})
+function push(button) {
+		$.ajax("/push/" + button);
+}
+
+		</script> 
+	</head>
+	
+
+	<body>
+		<table>
+			<tr>
+				<td> 
+					<button class='btn' id='0'>1</button>
+				</td>
+				<td> 
+					<button class='btn' id='1'>2</button>
+				</td>
+			</tr>
+			<tr>
+				<td> 
+					<button class='btn' id='2'>3</button>
+				</td>
+				<td> 
+					<button class='btn' id='3'>4</button>
+				</td>
+			</tr>
+			<tr>
+				<td> 
+					<button class='btn' id='4'>5</button>
+				</td>
+				<td> 
+					<button class='btn' id='5'>6</button>
+				</td>
+				
+				
+			</tr>
+		</table>
+	</body>
+</html>
